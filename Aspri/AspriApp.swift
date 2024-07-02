@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct AspriApp: App {
-    @Bindable private var chatData = ChatData()
+    @Bindable private var chatData = ChatModelData()
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([

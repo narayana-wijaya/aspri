@@ -7,38 +7,98 @@
 
 import SwiftUI
 import SwiftData
+import Lottie
 
 struct ChatView: View {
     @Environment(\.modelContext) private var context
-    @Environment(ChatData.self) private var chatData
+    @Environment(ChatModelData.self) private var chatData
     @Query private var chats: [ChatModel]
     
     var body: some View {
+        @Bindable var chatBindable = chatData
+        
         NavigationSplitView {
-            List {
-                ForEach(chats) { chat in
-                    Text(chat.text)
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+            VStack {
+                ScrollView {
+                    ForEach(chats) { chat in
+                        return ChatBubble(chatModel: chat)
+                            .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            
+                    }
+                    .onDelete(perform: deleteItems)
+                    
+                    if chatData.isLoading {
+                        HStack {
+                            Image("personal-assistant", bundle: nil)
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(.gray)
+                                }
+                            
+                            LottieView(name: LottieFiles.typing, loopMode: .loop, contentMode: .scaleAspectFit)
+                                .frame(width: 75, alignment: .leading)
+                            
+                            Spacer()
+                        }
                     }
                 }
+                .defaultScrollAnchor(.bottom)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        HStack {
+                            Image("personal-assistant", bundle: nil)
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(.gray)
+                                }
+                            VStack(alignment: .leading) {
+                                Text("Chae")
+                                    .font(.title2)
+                                    .foregroundStyle(.white)
+                                Text("Hi, please ask me anything!")
+                                    .font(.caption2)
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .padding(.bottom, 4)
+                    }
+                    //                    ToolbarItem(placement: .topBarTrailing) {
+                    //                        Button {
+                    //                            print("Speak with Aspri")
+                    //                        } label: {
+                    //                            Image(systemName: "person.wave.2.fill")
+                    //                                .foregroundStyle(.white)
+                    //                        }
+                    //                    }
+                }
+                Spacer()
+                HStack {
+                    TextField("Enter prompth", text: $chatBindable.prompth, axis: .vertical)
+                        .lineLimit(1...5)
+                    Button(action: submit) {
+                        Image(systemName: "paperplane.fill")
+                    }
+                }
+                .padding()
             }
+            .toolbarBackground(Color.teal, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         } detail: {
             Text("Select an item")
         }
     }
     
-    private func addItem() {
+    private func submit() {
         Task {
-            await chatData.addChat(context: context, "Hi, What do you think about Bali?")
+            await chatData.addChat(context: context)
         }
     }
     
@@ -52,6 +112,9 @@ struct ChatView: View {
 }
 
 #Preview {
-    ChatView()
-        .modelContainer(for: ChatModel.self, inMemory: true)
+    let chatData = ChatModelData()
+    chatData.isLoading = true
+    return ChatView()
+        .environment(chatData)
+        .modelContainer(DataController.previewContainer)
 }
