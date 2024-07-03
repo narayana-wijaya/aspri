@@ -14,6 +14,8 @@ struct ChatView: View {
     @Environment(ChatModelData.self) private var chatData
     @Query private var chats: [ChatModel]
     
+    @FocusState private var prompthIsFocused: Bool
+    
     var body: some View {
         @Bindable var chatBindable = chatData
         
@@ -83,8 +85,13 @@ struct ChatView: View {
                 HStack {
                     TextField("Enter prompth", text: $chatBindable.prompth, axis: .vertical)
                         .lineLimit(1...5)
+                        .focused($prompthIsFocused)
                     Button(action: submit) {
-                        Image(systemName: "paperplane.fill")
+                        if prompthIsFocused && chatData.prompth.isEmpty {
+                            Image(systemName: "keyboard.chevron.compact.down.fill")
+                        } else {
+                            Image(systemName: "paperplane.fill")
+                        }
                     }
                 }
                 .padding()
@@ -97,6 +104,11 @@ struct ChatView: View {
     }
     
     private func submit() {
+        guard !chatData.prompth.isEmpty else {
+            prompthIsFocused = false
+            return
+        }
+        
         Task {
             await chatData.addChat(context: context)
         }

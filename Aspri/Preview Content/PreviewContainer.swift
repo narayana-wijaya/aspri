@@ -17,11 +17,20 @@ class DataController {
 
             let chat = ChatModel(text: "Hello guys")
             let res = ChatModel(text: """
-                                Jisoo, born Kim Ji-soo, is a South Korean singer and actress. She is a member of the girl group BLACKPINK, formed by YG Entertainment.
-                                
-                                Jisoo is known for her beauty and visuals, and has been ranked as one of the most beautiful women in the world by various publications. She has also been praised for her acting skills, and has starred in several dramas, including "Arthdal Chronicles" and "Snowdrop".
+                                To scroll to the bottom of a `ScrollView` in SwiftUI, you can use the `scrollTo` modifier. Here's how:
 
-                                Jisoo is a talented and versatile artist,
+                                ```
+                                struct ContentView: View {
+                                    @State private var scrollToBottom = false
+
+                                    var body: some View {
+                                        ScrollView {
+                                            VStack {
+                                                // Your content here...
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                        }
+                                        .scrollTo(scrollToBottom ? .bottom : nil)
                         """, isUser: false)
             
             container.mainContext.insert(chat)

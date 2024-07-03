@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Markdown
 
 struct ChatBubble: View {
     var chatModel: ChatModel
@@ -56,11 +57,33 @@ struct ChatBubble: View {
         print("------------------------------------------------------")
         return result ?? AttributedString("")
     }
+    
+    func formatUsingMarkdown(text: String) -> AttributedString {
+        let doc = Document(parsing: text)
+        var markdowner = Markdownosaur()
+        let result = markdowner.attributedString(from: doc)
+        return AttributedString(result.string)
+    }
 }
 
 #Preview {
     VStack {
         ChatBubble(chatModel: ChatModel(text: "How are you?"))
-        ChatBubble(chatModel: ChatModel(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", isUser: false))
+        ChatBubble(chatModel: ChatModel(text: """
+                                To scroll to the bottom of a `ScrollView` in SwiftUI, you can use the `scrollTo` modifier. Here's how:
+
+                                ```
+                                struct ContentView: View {
+                                    @State private var scrollToBottom = false
+
+                                    var body: some View {
+                                        ScrollView {
+                                            VStack {
+                                                // Your content here...
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                        }
+                                        .scrollTo(scrollToBottom ? .bottom : nil)
+                        """, isUser: false))
     }
 }

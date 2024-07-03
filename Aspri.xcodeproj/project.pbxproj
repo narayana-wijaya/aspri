@@ -23,6 +23,8 @@
 		399B5FA92C34273100521F7E /* typing animation.json.bak in Resources */ = {isa = PBXBuildFile; fileRef = 399B5FA82C34273100521F7E /* typing animation.json.bak */; };
 		399B5FAC2C34295C00521F7E /* LottieFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399B5FAB2C34295C00521F7E /* LottieFiles.swift */; };
 		399B5FAE2C34437F00521F7E /* typing animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 399B5FAD2C34437F00521F7E /* typing animation.json */; };
+		39BBEB612C352398000DCD51 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BBEB602C352398000DCD51 /* MarkdownParser.swift */; };
+		39BBEB642C352439000DCD51 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 39BBEB632C352439000DCD51 /* Markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,7 @@
 		399B5FA82C34273100521F7E /* typing animation.json.bak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "typing animation.json.bak"; sourceTree = "<group>"; };
 		399B5FAB2C34295C00521F7E /* LottieFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieFiles.swift; sourceTree = "<group>"; };
 		399B5FAD2C34437F00521F7E /* typing animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "typing animation.json"; sourceTree = "<group>"; };
+		39BBEB602C352398000DCD51 /* MarkdownParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39BBEB642C352439000DCD51 /* Markdown in Frameworks */,
 				395C31BF2B2C716300B8EC1D /* GoogleGenerativeAI in Frameworks */,
 				399B5FA42C3421BC00521F7E /* Lottie in Frameworks */,
 			);
@@ -77,6 +81,7 @@
 		395C31A82B2C5D5200B8EC1D /* Aspri */ = {
 			isa = PBXGroup;
 			children = (
+				39BBEB5F2C35230D000DCD51 /* Shared */,
 				399B5FA72C34272100521F7E /* LottieFiles */,
 				395C31C92B2D584E00B8EC1D /* DataModel */,
 				395C31C62B2D2B8100B8EC1D /* Views */,
@@ -145,6 +150,14 @@
 			path = LottieFiles;
 			sourceTree = "<group>";
 		};
+		39BBEB5F2C35230D000DCD51 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				39BBEB602C352398000DCD51 /* MarkdownParser.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,6 +177,7 @@
 			packageProductDependencies = (
 				395C31BE2B2C716300B8EC1D /* GoogleGenerativeAI */,
 				399B5FA32C3421BC00521F7E /* Lottie */,
+				39BBEB632C352439000DCD51 /* Markdown */,
 			);
 			productName = Aspri;
 			productReference = 395C31A62B2C5D5200B8EC1D /* Aspri.app */;
@@ -196,6 +210,7 @@
 			packageReferences = (
 				395C31BD2B2C716300B8EC1D /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
 				399B5FA22C3421BC00521F7E /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				39BBEB622C352439000DCD51 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 			);
 			productRefGroup = 395C31A72B2C5D5200B8EC1D /* Products */;
 			projectDirPath = "";
@@ -225,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39BBEB612C352398000DCD51 /* MarkdownParser.swift in Sources */,
 				395C31CD2B2D5F5B00B8EC1D /* PreviewContainer.swift in Sources */,
 				395C31C22B2C737A00B8EC1D /* ChatModel.swift in Sources */,
 				395C31CB2B2D586000B8EC1D /* ChatModelData.swift in Sources */,
@@ -462,6 +478,14 @@
 				minimumVersion = 4.4.3;
 			};
 		};
+		39BBEB622C352439000DCD51 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-markdown";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -474,6 +498,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 399B5FA22C3421BC00521F7E /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		39BBEB632C352439000DCD51 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39BBEB622C352439000DCD51 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
