@@ -37,14 +37,23 @@ struct ChatBubble: View {
     }
     
     func formattedText(text: String) -> AttributedString {
+        print("Original Text: ")
+        print(text)
+        print("------------------------")
         var result: AttributedString?
         
         do {
-            result = try AttributedString(markdown: text)
+            result = try AttributedString(markdown: text,
+                                          options: AttributedString.MarkdownParsingOptions(
+                                            interpretedSyntax: .inlineOnlyPreservingWhitespace
+                                          )
+            )
         } catch {
             print(error.localizedDescription)
         }
-        
+        print("Formmatted text: ")
+        print(result ?? AttributedString(""))
+        print("------------------------------------------------------")
         return result ?? AttributedString("")
     }
 }
