@@ -46,7 +46,7 @@ struct ChatView: View {
                                 .frame(width: 75, alignment: .leading)
                             
                             Spacer()
-                        }
+                        }.padding()
                     }
                 }
                 .defaultScrollAnchor(.bottom)
@@ -96,6 +96,7 @@ struct ChatView: View {
                 }
                 .padding()
             }
+            .padding(.horizontal, 4)
             .toolbarBackground(Color.teal, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         } detail: {

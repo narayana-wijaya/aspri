@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		394003F92C40297200A45909 /* MarkdownResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394003F82C40297200A45909 /* MarkdownResult.swift */; };
+		394003FB2C40325300A45909 /* CodeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394003FA2C40325300A45909 /* CodeBlockView.swift */; };
+		394003FE2C40C37300A45909 /* Highlighter in Frameworks */ = {isa = PBXBuildFile; productRef = 394003FD2C40C37300A45909 /* Highlighter */; };
 		395C31AA2B2C5D5200B8EC1D /* AspriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395C31A92B2C5D5200B8EC1D /* AspriApp.swift */; };
 		395C31B02B2C5D5300B8EC1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395C31AF2B2C5D5300B8EC1D /* Assets.xcassets */; };
 		395C31B32B2C5D5300B8EC1D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395C31B22B2C5D5300B8EC1D /* Preview Assets.xcassets */; };
@@ -28,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		394003F82C40297200A45909 /* MarkdownResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownResult.swift; sourceTree = "<group>"; };
+		394003FA2C40325300A45909 /* CodeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockView.swift; sourceTree = "<group>"; };
 		395C31A62B2C5D5200B8EC1D /* Aspri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aspri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		395C31A92B2C5D5200B8EC1D /* AspriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspriApp.swift; sourceTree = "<group>"; };
 		395C31AF2B2C5D5300B8EC1D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,6 +60,7 @@
 			files = (
 				39BBEB642C352439000DCD51 /* Markdown in Frameworks */,
 				395C31BF2B2C716300B8EC1D /* GoogleGenerativeAI in Frameworks */,
+				394003FE2C40C37300A45909 /* Highlighter in Frameworks */,
 				399B5FA42C3421BC00521F7E /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +134,7 @@
 			children = (
 				395C31C72B2D2BC500B8EC1D /* ChatBubble.swift */,
 				399B5FA52C34265700521F7E /* LottieView.swift */,
+				394003FA2C40325300A45909 /* CodeBlockView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -154,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				39BBEB602C352398000DCD51 /* MarkdownParser.swift */,
+				394003F82C40297200A45909 /* MarkdownResult.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -178,6 +186,7 @@
 				395C31BE2B2C716300B8EC1D /* GoogleGenerativeAI */,
 				399B5FA32C3421BC00521F7E /* Lottie */,
 				39BBEB632C352439000DCD51 /* Markdown */,
+				394003FD2C40C37300A45909 /* Highlighter */,
 			);
 			productName = Aspri;
 			productReference = 395C31A62B2C5D5200B8EC1D /* Aspri.app */;
@@ -211,6 +220,7 @@
 				395C31BD2B2C716300B8EC1D /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
 				399B5FA22C3421BC00521F7E /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				39BBEB622C352439000DCD51 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+				394003FC2C40C37300A45909 /* XCRemoteSwiftPackageReference "HighlighterSwift" */,
 			);
 			productRefGroup = 395C31A72B2C5D5200B8EC1D /* Products */;
 			projectDirPath = "";
@@ -249,8 +259,10 @@
 				395C31C52B2C74CC00B8EC1D /* ChatView.swift in Sources */,
 				399B5FA12C33AA2F00521F7E /* Scroller.swift in Sources */,
 				395C31AA2B2C5D5200B8EC1D /* AspriApp.swift in Sources */,
+				394003F92C40297200A45909 /* MarkdownResult.swift in Sources */,
 				399B5FA62C34265700521F7E /* LottieView.swift in Sources */,
 				395C31C82B2D2BC500B8EC1D /* ChatBubble.swift in Sources */,
+				394003FB2C40325300A45909 /* CodeBlockView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +474,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		394003FC2C40C37300A45909 /* XCRemoteSwiftPackageReference "HighlighterSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/smittytone/HighlighterSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.5;
+			};
+		};
 		395C31BD2B2C716300B8EC1D /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/generative-ai-swift";
@@ -489,6 +509,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		394003FD2C40C37300A45909 /* Highlighter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 394003FC2C40C37300A45909 /* XCRemoteSwiftPackageReference "HighlighterSwift" */;
+			productName = Highlighter;
+		};
 		395C31BE2B2C716300B8EC1D /* GoogleGenerativeAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 395C31BD2B2C716300B8EC1D /* XCRemoteSwiftPackageReference "generative-ai-swift" */;

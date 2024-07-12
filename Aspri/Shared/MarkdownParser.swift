@@ -8,17 +8,53 @@
 import Foundation
 import UIKit
 import Markdown
+import Highlighter
 
 // Base on Christian Selig source code
 // https://github.com/christianselig/Markdownosaur/blob/main/Sources/Markdownosaur/Markdownosaur.swift
 
-public struct Markdownosaur: MarkupVisitor {
-    let baseFontSize: CGFloat = 15.0
+public struct MarkdownParser: MarkupVisitor {
+    let baseFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
+    let highlighter: Highlighter = {
+        let hl = Highlighter()!
+        hl.setTheme("xcode")
+        return hl
+    }()
+    
+    let newLineFontSize: CGFloat = 12
 
     public init() {}
     
     public mutating func attributedString(from document: Document) -> NSAttributedString {
         return visit(document)
+    }
+    
+    mutating func markdownResults(from document: Document) -> [MarkdownResult] {
+        var result = [MarkdownResult]()
+        var attrString = NSMutableAttributedString()
+        
+        func appendAttrString() {
+            if !attrString.string.isEmpty {
+                let attrStringToAppend = (try? AttributedString(attrString, including: \.uiKit)) ?? AttributedString(stringLiteral: attrString.string)
+                result.append(.init(attributedText: attrStringToAppend, isCodeBlock: false, codeLanguage: nil))
+            }
+        }
+        
+        document.children.forEach { markup in
+            let att = visit(markup)
+            if let codeBlock = markup as? CodeBlock {
+                appendAttrString()
+                
+                let attToAppend = (try? AttributedString(att, including: \.uiKit)) ?? AttributedString(stringLiteral: att.string)
+                result.append(.init(attributedText: attToAppend, isCodeBlock: true, codeLanguage: codeBlock.language))
+                
+                attrString = NSMutableAttributedString()
+            } else {
+                attrString.append(att)
+            }
+        }
+        appendAttrString()
+        return result
     }
     
     mutating public func defaultVisit(_ markup: Markup) -> NSAttributedString {
@@ -67,7 +103,7 @@ public struct Markdownosaur: MarkupVisitor {
         }
         
         if paragraph.hasSuccessor {
-            result.append(paragraph.isContainedInList ? .singleNewline(withFontSize: baseFontSize) : .doubleNewline(withFontSize: baseFontSize))
+            result.append(paragraph.isContainedInList ? .singleNewline(withFontSize: baseFontSize) : .doubleNewline(withFontSize: newLineFontSize))
         }
         
         return result
@@ -83,7 +119,7 @@ public struct Markdownosaur: MarkupVisitor {
         result.applyHeading(withLevel: heading.level)
         
         if heading.hasSuccessor {
-            result.append(.doubleNewline(withFontSize: baseFontSize))
+            result.append(.doubleNewline(withFontSize: newLineFontSize))
         }
         
         return result
@@ -108,10 +144,10 @@ public struct Markdownosaur: MarkupVisitor {
     }
     
     public func visitCodeBlock(_ codeBlock: CodeBlock) -> NSAttributedString {
-        let result = NSMutableAttributedString(string: codeBlock.code, attributes: [.font: UIFont.monospacedSystemFont(ofSize: baseFontSize - 1.0, weight: .regular), .foregroundColor: UIColor.systemGray])
+        let result = NSMutableAttributedString(attributedString: highlighter.highlight(codeBlock.code, as: codeBlock.language) ?? NSAttributedString(string: codeBlock.code))
         
         if codeBlock.hasSuccessor {
-            result.append(.singleNewline(withFontSize: baseFontSize))
+            result.append(.singleNewline(withFontSize: newLineFontSize))
         }
     
         return result
@@ -164,7 +200,7 @@ public struct Markdownosaur: MarkupVisitor {
         }
         
         if unorderedList.hasSuccessor {
-            result.append(.doubleNewline(withFontSize: baseFontSize))
+            result.append(.doubleNewline(withFontSize: newLineFontSize))
         }
         
         return result
@@ -178,7 +214,7 @@ public struct Markdownosaur: MarkupVisitor {
         }
         
         if listItem.hasSuccessor {
-            result.append(.singleNewline(withFontSize: baseFontSize))
+            result.append(.singleNewline(withFontSize: newLineFontSize))
         }
         
         return result
@@ -231,7 +267,7 @@ public struct Markdownosaur: MarkupVisitor {
         }
         
         if orderedList.hasSuccessor {
-            result.append(orderedList.isContainedInList ? .singleNewline(withFontSize: baseFontSize) : .doubleNewline(withFontSize: baseFontSize))
+            result.append(orderedList.isContainedInList ? .singleNewline(withFontSize: newLineFontSize) : .doubleNewline(withFontSize: newLineFontSize))
         }
         
         return result
@@ -265,7 +301,7 @@ public struct Markdownosaur: MarkupVisitor {
         }
         
         if blockQuote.hasSuccessor {
-            result.append(.doubleNewline(withFontSize: baseFontSize))
+            result.append(.doubleNewline(withFontSize: newLineFontSize))
         }
         
         return result
